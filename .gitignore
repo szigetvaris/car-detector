@@ -1,0 +1,25 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore the Django migration files (if you don't want to include them in the repository)
+**/migrations/*.py
+**/migrations/*.pyc
+
+# Ignore any local settings files (e.g., settings_local.py)
+**/settings_local.py
+
+# Ignore the SQLite database file (if you're using SQLite as your database)
+*.sqlite3
+
+# Ignore any IDE or editor-specific files
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+
+# Ignore any system or temporary files
+*.DS_Store
+Thumbs.db
+
+# ignore virtual environment
+venv/
