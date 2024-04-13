@@ -27,7 +27,7 @@ jobs:
           password: ${{ env.DOCKERHUB_KEY }}
 
       - name: Build Docker image
-        run: cd ./car-detector && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        run: cd ./carDetector && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
 
       - name: Push Docker image
         run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
