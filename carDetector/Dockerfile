@@ -22,5 +22,5 @@ EXPOSE 5000
 # Migrációk futtatása
 #RUN python manage.py migrate
 
-# Django alkalmazás indítása
-CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
+# Django alkalmazás indítása, a 5000-es porton<
+CMD ["python", "manage.py", "runserver", "5000:5000"]
