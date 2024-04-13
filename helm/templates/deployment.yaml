@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-detector
+spec:
+  selector:
+    matchLabels:
+      app: car-detector
+  template:
+    metadata:
+      labels:
+        app: car-detector
+    spec:
+      containers:
+        - name: car-detector
+          image: szigetvaris/car-detector:{{ .Values.env.APP_VERSION }}
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+                path: /health
+                port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+                path: /health
+                port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
