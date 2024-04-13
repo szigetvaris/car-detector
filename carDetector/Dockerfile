@@ -20,7 +20,7 @@ COPY . /home/pythonuser/app/
 EXPOSE 5000
 
 # Migrációk futtatása
-RUN python manage.py migrate
+#RUN python manage.py migrate
 
 # Django alkalmazás indítása
 CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
