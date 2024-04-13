@@ -16,8 +16,11 @@ USER pythonuser
 # Projekt másolása a konténerbe
 COPY . /home/pythonuser/app/
 
-# Collect static files
-#RUN python manage.py collectstatic --noinput
+# Port megnyitása
+EXPOSE 5000
+
+# Migrációk futtatása
+RUN python manage.py migrate
 
 # Django alkalmazás indítása
 CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
