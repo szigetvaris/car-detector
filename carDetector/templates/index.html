@@ -1,0 +1,26 @@
+<!--
+    Main page of the app 
+    Displays a form where the user can upload an image and tag it with a name
+    after form is submited the user is redirected to result page where the
+    image is displayed with the tag name and the recognized cars with bounding
+    boxes
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Detector</title>
+</head>
+<body>
+    <h1>Car Detector</h1>
+    <p>Upload an image with cars and submit the form to trigger car recognition</p>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="image">Upload an image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <br>
+        <label for="tag">Tag name:</label>
+        <input type="text" id="tag" name="tag" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
