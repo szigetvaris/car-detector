@@ -11,3 +11,35 @@ spec:
       name: http
   selector:
     app: car-detector
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: engine
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 6000
+      targetPort: 6000
+      protocol: TCP
+      name: http
+  selector:
+    app: engine
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5672
+      targetPort: 5672
+      protocol: TCP
+      name: amqp
+    - port: 15672
+      targetPort: 15672
+      protocol: TCP
+      name: management
+  selector:
+    app: rabbitmq

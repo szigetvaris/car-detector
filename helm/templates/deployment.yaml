@@ -35,3 +35,32 @@ spec:
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 3
+        - name: engine
+          image: szigetvaris/engine:{{ .Values.env.APP_VERSION }}
+          ports:
+            - name: http
+              containerPort: 6000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+                path: /health
+                port: 6000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+                path: /health
+                port: 6000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+        - name: rabbitmq
+          image: rabbitmq:3-management
+          ports:
+            - containerPort: 5672
+              containerPort: 15672
+        
