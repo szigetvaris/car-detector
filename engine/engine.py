@@ -1,6 +1,5 @@
 import os
 from flask import Flask, render_template, request, send_file
-from recognition import car_detector
 import pika
 import csv
 import cv2
