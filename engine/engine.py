@@ -77,4 +77,4 @@ def home():
 
 
 if __name__ == '__main__':
-    engine.run(host="0.0.0.0", port=6000, debug=True)
+    engine.run(host="0.0.0.0", port=6000, debug=False)
