@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: car-detector
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 5000
       targetPort: http
@@ -17,7 +17,7 @@ kind: Service
 metadata:
   name: engine
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 6000
       targetPort: 6000
@@ -31,7 +31,7 @@ kind: Service
 metadata:
   name: rabbitmq
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 5672
       targetPort: 5672
