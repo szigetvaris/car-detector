@@ -10,7 +10,8 @@ on:
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_KEY: ${{ secrets.DOCKERHUB_KEY }}
-  IMAGE_NAME: car-detector
+  IMAGE_NAME_CAR_DETECTOR: car-detector
+  IMAGE_NAME_ENGINE: engine
 
 jobs:
   build-and-deploy:
@@ -26,11 +27,17 @@ jobs:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_KEY }}
 
-      - name: Build Docker image
-        run: cd ./carDetector && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+      - name: Build Docker image for car-detector
+        run: cd ./carDetector && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_CAR_DETECTOR }}:${{ github.sha }} .
 
-      - name: Push Docker image
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      - name: Push Docker image for car-detector
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_CAR_DETECTOR }}:${{ github.sha }}
+
+      - name: Build Docker image for engine
+        run: cd ./engine && docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_ENGINE }}:${{ github.sha }} .
+      
+      - name: Push Docker image for engine
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_ENGINE }}:${{ github.sha }}
 
       - name: Update values.yaml
         run: |

@@ -1,7 +1,7 @@
 FROM python:3.6.15-slim-buster
-RUN pip3 install flask requests base64 flask_socketio pika threading
+RUN pip3 install flask pika
 RUN useradd pythonuser -ms /bin/bash
 WORKDIR /home/pythonuser/app
 USER pythonuser
-COPY app.py app.py
-CMD python -u app.py
+COPY engine.py engine.py
+CMD python -u engine.py

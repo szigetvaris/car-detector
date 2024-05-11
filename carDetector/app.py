@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 import requests
 import base64
+from flask_socketio import SocketIO, emit
+import pika
+import threading
 
 app = Flask(__name__)
 
@@ -31,6 +34,35 @@ def upload():
         return 'No data received'
 
 
+
+# Initalize Flask-SocketIO
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+# RabbitMQ setup
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+channel = connection.channel()
+channel.queue_declare(queue='car_detector')
+
+def callback(ch, method, properties, body):
+    # Wjem a ,essage os receoved, emit it to the WebSocket
+    socketio.emit('message', {'data': body.decode()})
+
+# Start consuming messages from RabbitMQ in a new thread
+def start_consuming():
+    channel.basic_consume(queue='car_detector', on_message_callback=callback, auto_ack=True)
+    channel.start_consuming()
+    
+threading.Thread(target=start_consuming).start()
+
+@app.route('/admin')
+def admin():
+    # Render the admin page
+    return render_template('admin.html')
+
+@socketio.on('connect')
+def test_connect():
+    emit('message', {'data': 'Connected'})
+
 """ 
 Main page of the app 
 Displays a form where the user can upload an image and tag it with a name
@@ -46,4 +78,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
