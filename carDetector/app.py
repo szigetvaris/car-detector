@@ -39,7 +39,7 @@ def upload():
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # RabbitMQ setup
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
 channel = connection.channel()
 channel.queue_declare(queue='car_detector')
 
