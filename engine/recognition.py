@@ -39,4 +39,4 @@ import os
 #     # Return the number of cars detected and the new file path
 #     return len(cars), output_path
 
-car_detector('tmp/cars.jpg')
+#car_detector('tmp/cars.jpg')
