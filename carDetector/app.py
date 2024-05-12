@@ -44,14 +44,17 @@ def callback(ch, method, properties, body):
 
 # Start consuming messages from RabbitMQ in a new thread
 def start_consuming():
-    # RabbitMQ setup
     connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
     channel = connection.channel()
     channel.queue_declare(queue='car_detector')
 
+    def callback(ch, method, properties, body):
+        # When a message is received, emit it to the WebSocket
+        socketio.emit('message', {'data': body.decode()})
+
     channel.basic_consume(queue='car_detector', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
-    
+
 threading.Thread(target=start_consuming).start()
 
 @app.route('/admin')
