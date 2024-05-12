@@ -38,17 +38,17 @@ def upload():
 # Initalize Flask-SocketIO
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# RabbitMQ setup
-connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
-channel = connection.channel()
-channel.queue_declare(queue='car_detector')
-
 def callback(ch, method, properties, body):
     # Wjem a ,essage os receoved, emit it to the WebSocket
     socketio.emit('message', {'data': body.decode()})
 
 # Start consuming messages from RabbitMQ in a new thread
 def start_consuming():
+    # RabbitMQ setup
+    connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
+    channel = connection.channel()
+    channel.queue_declare(queue='car_detector')
+
     channel.basic_consume(queue='car_detector', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
     
