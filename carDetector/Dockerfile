@@ -4,4 +4,5 @@ RUN useradd pythonuser -ms /bin/bash
 WORKDIR /home/pythonuser/app
 USER pythonuser
 COPY app.py app.py
+COPY templates templates/
 CMD python -u app.py
