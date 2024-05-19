@@ -34,28 +34,50 @@ def upload():
         return 'No data received'
 
 
-
-# Initalize Flask-SocketIO
+# Initialize Flask-SocketIO
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+# RabbitMQ setup
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+channel = connection.channel()
+channel.queue_declare(queue='my_queue')
+
 def callback(ch, method, properties, body):
-    # Wjem a ,essage os receoved, emit it to the WebSocket
+    # When a message is received, emit it to the WebSocket
     socketio.emit('message', {'data': body.decode()})
 
 # Start consuming messages from RabbitMQ in a new thread
 def start_consuming():
-    connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
-    channel = connection.channel()
-    channel.queue_declare(queue='car_detector')
-
-    def callback(ch, method, properties, body):
-        # When a message is received, emit it to the WebSocket
-        socketio.emit('message', {'data': body.decode()})
-
-    channel.basic_consume(queue='car_detector', on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue='my_queue', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
 threading.Thread(target=start_consuming).start()
+
+
+# Initalize Flask-SocketIO
+# socketio = SocketIO(app, cors_allowed_origins="*")
+
+# def callback(ch, method, properties, body):
+#     # Wjem a ,essage os receoved, emit it to the WebSocket
+#     socketio.emit('message', {'data': body.decode()})
+
+# # Start consuming messages from RabbitMQ in a new thread
+# def start_consuming():
+#     try:
+#         connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
+#         channel = connection.channel()
+#         channel.queue_declare(queue='car_detector')
+
+#         def callback(ch, method, properties, body):
+#             # When a message is received, emit it to the WebSocket
+#             socketio.emit('message', {'data': body.decode()})
+
+#         channel.basic_consume(queue='car_detector', on_message_callback=callback, auto_ack=True)
+#         channel.start_consuming()
+#     except Exception as e:
+#         print(f"Error in start_consuming: {e}")
+
+# # threading.Thread(target=start_consuming).start()
 
 @app.route('/admin')
 def admin():
@@ -81,4 +103,4 @@ def home():
 
 
 if __name__ == '__main__':
-    socketio.run(app, host="0.0.0.0", port=5000, debug=False, allow_unsafe_werkzeug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
