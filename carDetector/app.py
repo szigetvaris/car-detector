@@ -66,7 +66,7 @@ def callback(ch, method, properties, body):
 def start_consuming():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+            connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0`'))
             channel = connection.channel()
             channel.queue_declare(queue='car_detector')
 

@@ -58,7 +58,7 @@ def detect():
             writer.writerow([tag, count])
         
         # send the file content to rabbitMQ
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('0.0.0.0'))
         channel = connection.channel()
         channel.queue_declare(queue='car_detector')
         
