@@ -55,7 +55,7 @@ def detect():
         count, image_path = car_detector(image_path)
         
         # append (tag, count) to a file
-        with open('db.csv', mode='a') as db:
+        with open('tmp/db.csv', mode='a') as db:
             writer = csv.writer(db)
             writer.writerow([tag, count])
         
