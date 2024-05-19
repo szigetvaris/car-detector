@@ -8,6 +8,7 @@ RUN pip3 install flask flask_socketio pika opencv-python
 RUN useradd pythonuser -ms /bin/bash
 WORKDIR /home/pythonuser/app
 USER pythonuser
+RUN chown -R pythonuser:pythonuser /home/pythonuser/app
 COPY engine.py engine.py
 COPY haarcascade_car.xml haarcascade_car.xml
 CMD python -u engine.py
