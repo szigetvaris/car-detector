@@ -43,13 +43,13 @@ def detect():
         tag = request.form.get('tag')
         image = request.files.get('image')
 
-        # # create tmp folder if needed
-        # os.makedirs('tmp', exist_ok=True)
-        # # save the image to a tmp file
-        # image_path = os.path.join('tmp', image.filename)
-        # image.save(image_path)
+        # create tmp folder if needed
+        os.makedirs('tmp', exist_ok=True)
+        # save the image to a tmp file
+        image_path = os.path.join('tmp', image.filename)
+        image.save(image_path)
         
-        image.save(image.filename)
+        # image.save(image.filename)
 
         # Process the image here
         count, image_path = car_detector(image_path)

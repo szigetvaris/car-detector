@@ -6,9 +6,9 @@ RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx
 RUN pip3 install flask flask_socketio pika opencv-python
 RUN useradd pythonuser -ms /bin/bash
+RUN mkdir -p /home/pythonuser/tmp && chown -R pythonuser:pythonuser /home/pythonuser/tmp
 WORKDIR /home/pythonuser/app
 USER pythonuser
-RUN chown -R pythonuser:pythonuser /home/pythonuser/app
 COPY engine.py engine.py
 COPY haarcascade_car.xml haarcascade_car.xml
 CMD python -u engine.py
