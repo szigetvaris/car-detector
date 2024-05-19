@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx
 RUN pip3 install flask flask_socketio pika opencv-python
 RUN useradd pythonuser -ms /bin/bash
-RUN mkdir -p /home/pythonuser/tmp && chown -R pythonuser:pythonuser /home/pythonuser/tmp
+RUN mkdir -p /home/pythonuser/app/tmp && chown -R pythonuser:pythonuser /home/pythonuser/app/tmp
 WORKDIR /home/pythonuser/app
 USER pythonuser
 COPY engine.py engine.py
