@@ -26,3 +26,6 @@ venv/
 
 # tmp
 engine/tmp/
+
+# new version
+helm/values.yaml
